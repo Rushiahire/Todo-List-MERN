@@ -1,20 +1,22 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const listSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+  title: {
+    type: String,
+    required: true,
+  },
+  body: {
+    type: String,
+    required: true,
+  },
+  user: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
     },
-    body: {
-        type: String,
-        required: true
-    },
-    user: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: "User"
-        }
-    ]
-})
+  ],
+});
 
-module.exports = mongoose.model("List", listSchema)
+const list = mongoose.model("List", listSchema);
+
+export default list;
