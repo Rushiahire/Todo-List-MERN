@@ -58,3 +58,18 @@ export const deleteTask = async (req, res) => {
     console.log(error);
   }
 };
+
+// get Task
+export const getTasks = async (req, res) => {
+  try {
+    const list = await List.find({ user: req.params.id });
+
+    if (list.length !== 0) {
+      res.status(200).json({ list });
+    } else {
+      res.status(200).json({ message: "No Tasks Found" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

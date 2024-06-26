@@ -3,9 +3,11 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user-routes.js";
 import listRoutes from "./routes/list-routes.js";
 import { connection } from "./connection/connection.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello");
