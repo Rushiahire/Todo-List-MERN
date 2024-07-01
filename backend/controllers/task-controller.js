@@ -4,12 +4,15 @@ import User from "../models/user.js";
 // add Task
 export const addTask = async (req, res) => {
   try {
-    const { title, body, email } = req.body;
+    const { title, body, id } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findById(id);
+
     if (existingUser) {
       const list = new List({ title, body, user: existingUser });
-      await list.save().then(() => res.status(200).json({ list }));
+      await list
+        .save()
+        .then(() => res.status(200).json({ status: "success", list }));
 
       existingUser.list.push(list);
       existingUser.save();
@@ -65,7 +68,7 @@ export const getTasks = async (req, res) => {
     const list = await List.find({ user: req.params.id });
 
     if (list.length !== 0) {
-      res.status(200).json({ list });
+      res.status(200).json({ status: "success", list });
     } else {
       res.status(200).json({ message: "No Tasks Found" });
     }
