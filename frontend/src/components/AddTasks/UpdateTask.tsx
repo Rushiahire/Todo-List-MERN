@@ -1,6 +1,11 @@
 import AddTaskForm from "./AddTaskForm";
 
-const UpdateTask = () => {
+const UpdateTask = ({
+  handleInputData,
+  inputValues,
+  isUpdate,
+  handleUpdateBtn,
+}: any) => {
   return (
     <div
       className="modal fade"
@@ -13,7 +18,7 @@ const UpdateTask = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Modal title
+              Update Task
             </h1>
             <button
               type="button"
@@ -23,7 +28,11 @@ const UpdateTask = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <AddTaskForm />
+            <AddTaskForm
+              inputValues={inputValues}
+              handleInputData={handleInputData}
+              isUpdate={isUpdate}
+            />
           </div>
           <div className="modal-footer">
             <button
@@ -33,8 +42,13 @@ const UpdateTask = () => {
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary">
-              Save changes
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleUpdateBtn}
+              data-bs-dismiss="modal"
+            >
+              Update
             </button>
           </div>
         </div>

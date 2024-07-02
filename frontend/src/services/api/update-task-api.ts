@@ -1,23 +1,18 @@
 import axios from "axios";
 import { BASE_URL } from "../config/api-config";
 
-export const deleteTaskApi: any = async (id: any) => {
-  console.log("delet id", id);
-  const userId: any = localStorage.getItem("id");
+export const updateTaskApi: any = async (id: any, body: any) => {
   let response: any;
 
   const config = {
     headers: {
       Accept: "application/json",
     },
-    data: {
-      userId: userId, // Include userId in the data property
-    },
   };
-
   try {
-    const res = await axios.delete(
-      `${BASE_URL}/api/v1/deleteTask/${id}`,
+    const res = await axios.put(
+      `${BASE_URL}/api/v1/updateTask/${id}`,
+      body,
       config
     );
 

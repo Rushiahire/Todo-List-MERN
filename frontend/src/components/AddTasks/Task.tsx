@@ -6,7 +6,7 @@ import AddTaskForm from "./AddTaskForm";
 
 const Task = () => {
   const [taskListingData, setTaskListingData] = useState<any>([]);
-  const [inputValues, setInputValues] = useState<any>();
+  const [inputValues, setInputValues] = useState<any>({});
   const ids: any = localStorage.getItem("id");
   console.log(ids);
 
@@ -39,6 +39,7 @@ const Task = () => {
     console.log("add task api ", addTask);
     if (addTask.data.status === "success") {
       getTaskListingFun();
+      setInputValues({});
     } else {
       alert("Failed to Add Task");
     }
@@ -46,10 +47,17 @@ const Task = () => {
   return (
     <div className="container mt-3">
       <AddTaskForm
+        inputValues={inputValues}
         handleInputData={handleInputData}
         handleAddBtn={handleAddBtn}
       />
-      <TaskListing taskListingData={taskListingData} />
+      <TaskListing
+        taskListingData={taskListingData}
+        setTaskListingData={setTaskListingData}
+        inputValues={inputValues}
+        setInputValues={setInputValues}
+        handleInputData={handleInputData}
+      />
     </div>
   );
 };

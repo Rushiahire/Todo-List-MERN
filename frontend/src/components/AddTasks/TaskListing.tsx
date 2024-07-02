@@ -1,14 +1,24 @@
-import React from "react";
-import UpdateTask from "./UpdateTask";
 import TaskListingCards from "./TaskListingCards";
 
-const TaskListing = ({ taskListingData }: any) => {
+const TaskListing = ({
+  taskListingData,
+  setTaskListingData,
+  inputValues,
+  setInputValues,
+  handleInputData,
+}: any) => {
   console.log("tass", taskListingData);
   return (
     <>
-      <TaskListingCards taskListingData={taskListingData} />
-
-      <UpdateTask />
+      <div className="border mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+        <TaskListingCards
+          taskListingData={taskListingData}
+          setTaskListingData={setTaskListingData}
+          inputValues={inputValues}
+          setInputValues={setInputValues}
+          handleInputData={handleInputData}
+        />
+      </div>
     </>
   );
 };

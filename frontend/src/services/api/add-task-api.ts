@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "../config/api-config";
 
 export const addTaskApi: any = async (body: any) => {
   let response: any;
@@ -9,11 +10,7 @@ export const addTaskApi: any = async (body: any) => {
     },
   };
   try {
-    const res = await axios.post(
-      "http://localhost:8000/api/v1/addTask",
-      body,
-      config
-    );
+    const res = await axios.post(`${BASE_URL}/api/v1/addTask`, body, config);
 
     response = res;
   } catch (error) {
