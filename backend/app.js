@@ -21,6 +21,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 });
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+});
+
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", listRoutes);
 connection();
