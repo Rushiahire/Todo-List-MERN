@@ -4,10 +4,12 @@ import userRoutes from "./routes/user-routes.js";
 import listRoutes from "./routes/list-routes.js";
 import { connection } from "./connection/connection.js";
 import cors from "cors";
+import dotenv from "dotenv";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
 app.get("/", (req, res) => {
   res.send("Hello");
@@ -16,17 +18,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", listRoutes);
 connection();
-
-// mongoose
-//     .connect(
-//         "mongodb+srv://Rushi:%23Rushi9970@cluster0.yjqtfjf.mongodb.net/"
-//     )
-//     .then(() => {
-//         console.log("Connected to mongoDB");
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
 
 const port = 8000;
 app.listen(port, () => {
