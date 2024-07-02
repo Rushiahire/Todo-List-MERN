@@ -23,12 +23,10 @@ export const register = async (req, res) => {
 
     res.status(201).json({ status: "success", user: user });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        status: "error",
-        message: "An error occurred while registering the user",
-      });
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while registering the user",
+    });
   }
 };
 

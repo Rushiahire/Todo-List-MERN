@@ -1,5 +1,6 @@
 import List from "../models/list.js";
 import User from "../models/user.js";
+import mongoose from "mongoose";
 
 // add Task
 export const addTask = async (req, res) => {
@@ -25,9 +26,10 @@ export const addTask = async (req, res) => {
 // update Task
 export const updateTask = async (req, res) => {
   try {
-    const { title, body, email } = req.body;
+    console.log("update req", req.body, req.params);
+    const { title, body, id } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findById(id);
 
     if (existingUser) {
       const updateList = await List.findByIdAndUpdate(req.params.id, {
@@ -37,7 +39,9 @@ export const updateTask = async (req, res) => {
       updateList
         .save()
         .then(() =>
-          res.status(200).json({ message: "Task Updated Successfully" })
+          res
+            .status(200)
+            .json({ status: "success", message: "Task Updated Successfully" })
         );
     } else {
       res.status(400).json({ message: "User Not found" });
@@ -50,15 +54,46 @@ export const updateTask = async (req, res) => {
 // delete Task
 export const deleteTask = async (req, res) => {
   try {
-    const { email } = req.body;
-    const existingUser = await User.findOne({ email });
+    const userId = req.body.userId; // Extract user ID from request body
+    const taskId = req.params.id; // Extract task ID from request parameters
+
+    // Check if userId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    // Check if taskId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      return res.status(400).json({ message: "Invalid task ID" });
+    }
+    // Find the user by userId
+    const existingUser = await User.findById(userId);
+    console.log("existing user:", existingUser);
+
     if (existingUser) {
-      await List.findByIdAndDelete(req.params.id).then(() =>
-        res.status(200).json({ message: "Task Deleted" })
-      );
+      // Find and delete the task by taskId
+      const deletedTask = await List.findByIdAndDelete(taskId);
+      if (deletedTask) {
+        // Remove the task from the user's list array
+        existingUser.list.pull(taskId);
+        await existingUser.save();
+
+        return res
+          .status(200)
+          .json({ status: "success", message: "Task Deleted" });
+      } else {
+        return res
+          .status(404)
+          .json({ status: "error", message: "Task not found" });
+      }
+    } else {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found" });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(500).json({ error: error.message });
   }
 };
 

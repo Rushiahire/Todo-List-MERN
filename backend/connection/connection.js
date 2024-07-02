@@ -1,15 +1,13 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 export const connection = async (req, res) => {
-    try {
-        await mongoose.connect("mongodb+srv://Rushi:%23Rushi9970@cluster0.yjqtfjf.mongodb.net/")
-            .then(() => {
-                console.log("Connected")
-            })
+  const MONGODB_URI = process.env.MONGODB_URL;
 
-    } catch (error) {
-        console.log("error found", error)
-
-    }
-}
-
+  try {
+    await mongoose.connect(MONGODB_URI).then(() => {
+      console.log("Connected");
+    });
+  } catch (error) {
+    console.log("error found", error);
+  }
+};
